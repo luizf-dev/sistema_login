@@ -1,0 +1,12 @@
+@import 'Variables';
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.app{
+    background: $bg-body;
+    min-height: 100vh;
+}
