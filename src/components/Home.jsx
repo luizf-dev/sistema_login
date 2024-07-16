@@ -3,7 +3,7 @@ import '../sass/Home.scss';
 
 function Home(){
 
-    const userName = localStorage.getItem('username');
+    const userName = localStorage.getItem('usernames');
 
 
     return(
