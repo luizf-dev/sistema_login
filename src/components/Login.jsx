@@ -49,7 +49,7 @@ function Login() {
         //! e redireciona para a home do sistema
         localStorage.setItem('usernames', usernames );
         
-        navigate('/');
+        navigate('/home');
 
       }else{
         Swal.fire({

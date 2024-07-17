@@ -21,14 +21,6 @@ function SignUp() {
     //! Adiciona o método preventDefault() para impedir o envio do formulario.
     evento.preventDefault();
 
-    //! Limpa os campos do formulário
-    function clearInputs(){
-      setUserName('');
-      setEmail('');
-      setPassword('');
-      return;
-    }
-
     //! Verifica se os campos não estão vazios
     if(!userName || !email || !password){
       Swal.fire({
@@ -40,7 +32,10 @@ function SignUp() {
         timer: 2000
       })
 
-      clearInputs();
+      setUserName('');
+      setEmail('');
+      setPassword('');
+      return;
     }
 
       //! recupera o array de usuários do localStorage
@@ -59,7 +54,10 @@ function SignUp() {
             timer: 2000
           })
 
-        clearInputs();
+        setUserName('');
+        setEmail('');
+        setPassword('');
+        return;
       }
 
        //! O cryptoJS.AES.encrypt criptografa a senha usando o algoritmo AES com a chave secreta 'chave-secreta' e a converte para uma string.
