@@ -6,20 +6,30 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 
-function SignUp() {
+function SignUp() { 
 
-  //= Armazena os dados e guarda os estados locais
+  //! Armazena os dados e guarda os estados locais
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
 
-  //= Captura os valores dos campos de entrada, criptografa a senha e salva os dados no localStorage
+  //! Essa função captura os valores dos campos de entrada, criptografa a senha e salva os dados no localStorage
   function register(evento){
 
+    //! Adiciona o método preventDefault() para impedir o envio do formulario.
     evento.preventDefault();
 
+    //! Limpa os campos do formulário
+    function clearInputs(){
+      setUserName('');
+      setEmail('');
+      setPassword('');
+      return;
+    }
+
+    //! Verifica se os campos não estão vazios
     if(!userName || !email || !password){
       Swal.fire({
         position: 'center',
@@ -30,16 +40,13 @@ function SignUp() {
         timer: 2000
       })
 
-      setUserName('');
-      setEmail('');
-      setPassword('');
-      return;
+      clearInputs();
     }
 
-      //= recupera o array de usuários do localStorage
+      //! recupera o array de usuários do localStorage
       const users = JSON.parse(localStorage.getItem('users')) || [];
 
-      //= Verifica se o usuário já existe no cadastro
+      //! Verifica se o usuário já existe no cadastro
       const userExists = users.some(user => user.email === email)
 
         if(userExists){
@@ -52,21 +59,18 @@ function SignUp() {
             timer: 2000
           })
 
-        setUserName('');
-        setEmail('');
-        setPassword('');
-        return;
+        clearInputs();
       }
 
-       //= O cryptoJS.AES.encrypt criptografa a senha usando o algoritmo AES com a chave secreta 'chave-secreta' e a converte para uma string.
+       //! O cryptoJS.AES.encrypt criptografa a senha usando o algoritmo AES com a chave secreta 'chave-secreta' e a converte para uma string.
        const encryptedPassword = cryptoJs.AES.encrypt(password, 'chave-secreta').toString();
 
 
-      //= Adiciona um novo usuário ao array
+      //! Adiciona um novo usuário ao array
       const newUser = {userName, email, password: encryptedPassword};
       users.push(newUser);
 
-      //= Salva o array atualizado no localStorage
+      //! Salva o array atualizado no localStorage
       localStorage.setItem('users', JSON.stringify(users));
 
       Swal.fire({
@@ -78,6 +82,7 @@ function SignUp() {
         timer: 3000
       })
 
+      //!Redireciona para a página de login
       navigate('/');
   } 
 

@@ -3,38 +3,79 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import cryptoJs from 'crypto-js';
 import { useState } from 'react';
+import Swal from 'sweetalert2';
 
 function Login() {
 
-  const [userName, setUserName] = useState('');
+  //! Armazena os dados e guarda os estados locais 
   const [email, setEmail] = useState('');
   const [ password, setPassword] = useState('');
   const navigate = useNavigate();
 
+
+  function clearInputs(){
+    //! Limpa os campos do formulário
+    setEmail('');
+    setPassword('');
+    return;
+  }
+
+  
   function handleLogin(evento){
 
+    //! Adiciona o método preventDefault() para impedir o envio do formulario.
     evento.preventDefault();
 
-    //const storageUserName = localStorage.getItem('userName');
-    //const storageEmail = localStorage.getItem('email');
-    //const storagePassword = localStorage.getItem('password');
-
+    //! recupera o array de usuários do localStorage
     const users = JSON.parse(localStorage.getItem('users')) || [];
 
+    //! procura pelo endereço de email no array de usuários
     const user = users.find(user => user.email === email);
 
+    //! se existir o email correspondente no array de usuarios retorna true
     if(user){
+
+      //! descriptografa a senha
       const decryptedPassword = cryptoJs.AES.decrypt(user.password, 'chave-secreta').toString(cryptoJs.enc.Utf8);
 
+      //! pega o nome do usuário correspondente ao do email digitado no login
+      const usernames = user.userName;
+
+      //! compara a senha descriptografada que está armazenada no cadastro
+      //! com a senha fornecida pelo usuario no login
       if(decryptedPassword === password){
-        navigate('/home');
+
+        //! se todas as verficações retornarem true, grava o nome do usuário no localStorage,
+        //! e redireciona para a home do sistema
+        localStorage.setItem('usernames', usernames );
+        
+        navigate('/');
+
       }else{
-        alert('Usuário ou senha incorretos!');
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'Error! :(',
+          text: 'Usuário ou senha incorretos!',
+          showConfirmButton: false,
+          timer: 3000
+        })
+        
+        clearInputs();
       }
 
     }else{
-      alert('Usuário não encontrado!');
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Ops! :(',
+        text: 'Usuário não encontrado!',
+        showConfirmButton: false,
+        timer: 3000
+      })
     }
+
+    clearInputs();
   }
 
 
