@@ -1,8 +1,11 @@
+@import 'Variables';
+
 .container-home{
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    padding: 10px;
 }
 
 
@@ -12,5 +15,15 @@
     justify-content: center;
     flex-direction: column;
     background-color: #fff;
+    padding: 25px;
+}
+
+.login-alert{
+    color: blueviolet;
     padding: 15px;
+    font-size: 1rem;
+    font-weight: 900;
+    text-decoration:underline;
+    background-color: gray;
+    margin-top: 15px;
 }
